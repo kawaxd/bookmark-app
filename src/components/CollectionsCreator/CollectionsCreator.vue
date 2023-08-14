@@ -2,27 +2,23 @@
   <div class="creator-view">
     <div class="creator-view__stage">
       <h2 class="creator-view__title">Create a New Collection</h2>
-      <form class="creator-view__form">
+      <form class="creator-view__form" @submit.prevent="createCollection">
         <div class="creator-view__form-group">
           <label for="title" class="creator-view__label">Title:</label>
           <input
             id="title"
-            v-model="collectionTitle"
+            v-model.lazy="collectionTitle"
             type="text"
             class="creator-view__input"
             required
           />
         </div>
         <div class="creator-view__form-group-buttons">
-          <the-button
-            type="submit"
-            class="creator-view__button"
-            @click="createCollection"
-          >
+          <the-button type="submit" class="creator-view__button">
             Create Collection
           </the-button>
           <span>or</span>
-          <OPMLImport />
+          <OPMLImport :collection-id="collectionId" />
         </div>
       </form>
     </div>
@@ -43,9 +39,15 @@ import generateUUID from "@/utils/generateUUID";
 
 const collectionsStore = useCollections();
 const collectionTitle = ref<string>("");
+const collectionId = ref<string>(generateUUID());
 
 const createCollection = (): void => {
   if (!collectionTitle.value) return;
+  if (!/^[a-zA-Z0-9 ]*$/.test(collectionTitle.value)) {
+    alert("Collection title can only contain letters and numbers");
+    return;
+  }
+
   if (
     collectionsStore.collections.some(
       (collection: { title: string }) =>
@@ -57,9 +59,8 @@ const createCollection = (): void => {
     );
   }
 
-  const collectionId: string = generateUUID();
-  collectionsStore.createCollection(collectionTitle.value, collectionId);
-  router.push(`/edit/${collectionId}`);
+  collectionsStore.createCollection(collectionTitle.value, collectionId.value);
+  router.push(`/edit/${collectionId.value}`);
 };
 </script>
 

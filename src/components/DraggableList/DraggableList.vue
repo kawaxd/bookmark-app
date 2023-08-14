@@ -21,8 +21,10 @@
           <a :href="bookmark.url" target="_blank" class="list__item-link">
             {{ bookmark.title }}
           </a>
-          <div>
-            <the-button @click="editBookmark(bookmark.id)">Edit</the-button>
+          <!--          @TODO: This possibly needs to be refactored into a component-->
+          <div class="list__item-buttons">
+            <the-button @click="editUrl(bookmark.id)">Edit url</the-button>
+            <the-button @click="editTitle(bookmark.id)">Edit title</the-button>
             <the-button bg-color="red" @click="removeBookmark(bookmark.id)"
               >Delete</the-button
             >
@@ -43,6 +45,7 @@ import { IBookmark, ICollection } from "@/types";
 import isURL from "@/utils/isURL";
 
 import TheButton from "@/components/TheButton/TheButton.vue";
+import fetchFavicon from "@/utils/fetchFavicon";
 
 const props = defineProps({
   collection: {
@@ -72,7 +75,7 @@ const removeBookmark = (bookmarkId: string) => {
   }
 };
 
-const editBookmark = (bookmarkId: string) => {
+const editUrl = async (bookmarkId: string) => {
   const collection = props.collection;
   if (!collection) {
     console.error("Collection is missing.");
@@ -88,23 +91,55 @@ const editBookmark = (bookmarkId: string) => {
     return;
   }
 
-  const newUrl = prompt("Enter new bookmark url (leave empty to go forward)");
+  const newUrl = prompt("Enter new bookmark URL");
+  if (newUrl !== null) {
+    if (!isURL(newUrl)) {
+      alert("Invalid URL");
+      return;
+    }
 
-  if (newUrl !== "" && !isURL(newUrl)) {
-    alert("Invalid URL");
+    const updatedBookmark = {
+      id: bookmarkId,
+      favicon: await fetchFavicon(newUrl),
+      url: newUrl,
+      title: oldBookmark.title,
+    } as IBookmark;
+
+    await collections.editBookmark(collection.id, bookmarkId, updatedBookmark);
+  }
+};
+
+const editTitle = (bookmarkId: string) => {
+  editBookmark(bookmarkId, "title");
+};
+
+const editBookmark = (bookmarkId: string, field: string) => {
+  const collection = props.collection;
+  if (!collection) {
+    console.error("Collection is missing.");
     return;
   }
 
-  const newTitle = prompt(
-    "Enter new bookmark title (leave empty to go forward)"
+  const oldBookmark = collection.bookmarks.find(
+    (bookmark) => bookmark.id === bookmarkId
   );
 
-  if (newUrl !== "" || newTitle !== "") {
+  if (!oldBookmark) {
+    console.error("Bookmark not found.");
+    return;
+  }
+
+  let newFieldValue: string | null = null;
+  if (field === "title") {
+    newFieldValue = prompt("Enter new bookmark title");
+  }
+
+  if (newFieldValue !== null && (field === "title" || !isURL(newFieldValue))) {
     const updatedBookmark = {
       id: bookmarkId,
       favicon: oldBookmark.favicon,
-      url: newUrl !== "" ? newUrl : oldBookmark.url,
-      title: newTitle !== "" ? newTitle : oldBookmark.title,
+      url: oldBookmark.url,
+      title: newFieldValue,
     } as IBookmark;
 
     collections.editBookmark(collection.id, bookmarkId, updatedBookmark);

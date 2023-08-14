@@ -11,7 +11,7 @@ import { TButtonType } from "@/types";
 const props = defineProps({
   bgColor: {
     type: String,
-    default: "blue",
+    default: "#007bff",
   },
   color: {
     type: String,

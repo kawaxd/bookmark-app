@@ -2,8 +2,9 @@ import { defineStore } from "pinia";
 
 import { ICollection, IBookmark } from "@/types";
 import generateUUID from "@/utils/generateUUID";
-import isValidImage from "@/utils/isValidImage";
+
 import { ref } from "vue";
+import fetchFavicon from "@/utils/fetchFavicon";
 
 export const useCollections = defineStore("collections", {
   state: () => ({
@@ -82,20 +83,17 @@ export const useCollections = defineStore("collections", {
         const outlines = opmlDoc.getElementsByTagName("outline");
 
         if (outlines.length === 0) {
-          alert("No valid outlines found in the OPML code.");
+          throw new Error("No valid outlines found in the OPML code.");
         }
 
-        const bookmarks = [];
+        const bookmarks: IBookmark[] = [];
         for (let i = 0; i < outlines.length; i++) {
           const outline = outlines[i];
           const title = outline.getAttribute("text");
           const url = outline.getAttribute("url");
 
           if (title && url) {
-            // @TODO: trim to base url, try to find png etc
-            const favicon = (await isValidImage(`${url}/favicon.ico`))
-              ? `${url}/favicon.ico`
-              : require("@/assets/fallback.png");
+            const favicon = await fetchFavicon(url);
 
             bookmarks.push({
               id: generateUUID(),
@@ -105,7 +103,7 @@ export const useCollections = defineStore("collections", {
             });
           }
         }
-
+        console.log(bookmarks);
         if (bookmarks.length > 0) {
           const collectionId = generateUUID();
           const newTitle = collectionTitle ?? "Imported Collection";
@@ -118,6 +116,7 @@ export const useCollections = defineStore("collections", {
         }
       } catch (error) {
         console.error("Error importing OPML:", error);
+        throw error;
       }
     },
 
