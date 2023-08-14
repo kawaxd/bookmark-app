@@ -7,7 +7,7 @@
           <label for="title" class="creator-view__label">Title:</label>
           <input
             id="title"
-            v-model.lazy="collectionTitle"
+            v-model="collectionTitle"
             type="text"
             class="creator-view__input"
             required
@@ -18,7 +18,10 @@
             Create Collection
           </the-button>
           <span>or</span>
-          <OPMLImport :collection-id="collectionId" />
+          <OPMLImport
+            :collection-id="collectionId"
+            :collection-title="collectionTitle"
+          />
         </div>
       </form>
     </div>

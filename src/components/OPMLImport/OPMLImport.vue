@@ -17,16 +17,24 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  collectionTitle: {
+    type: String,
+    required: true,
+  },
 });
 
 const openDialog = async () => {
+  if (props.collectionTitle.trim() === "") {
+    alert("Please enter a collection title first");
+    return;
+  }
   const opmlCode = prompt(
     "Please paste your OPML code exported from this app:"
   );
 
   if (!!opmlCode && opmlCode.trim() !== "") {
     try {
-      await collectionsStore.importOPML(opmlCode);
+      await collectionsStore.importOPML(opmlCode, props.collectionTitle);
       await router.push("/");
     } catch (error) {
       alert("Invalid OPML code");

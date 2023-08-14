@@ -76,7 +76,7 @@ export const useCollections = defineStore("collections", {
       }
     },
 
-    async importOPML(opmlCode: string, collectionTitle?: string) {
+    async importOPML(opmlCode: string, collectionTitle: string) {
       try {
         const parser = new DOMParser();
         const opmlDoc = parser.parseFromString(opmlCode, "text/xml");
@@ -106,7 +106,7 @@ export const useCollections = defineStore("collections", {
         console.log(bookmarks);
         if (bookmarks.length > 0) {
           const collectionId = generateUUID();
-          const newTitle = collectionTitle ?? "Imported Collection";
+          const newTitle = collectionTitle;
           await this.createCollection(newTitle, collectionId);
           (
             this.collections.find(
