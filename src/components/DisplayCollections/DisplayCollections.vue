@@ -53,4 +53,4 @@ const createFirstCollection = () => {
 };
 </script>
 
-<style lang="scss" src="./DisplayCollections.scss"></style>
+<style scoped lang="scss" src="./DisplayCollections.scss"></style>

@@ -24,10 +24,17 @@ const props = defineProps({
 });
 
 const openDialog = async () => {
-  if (props.collectionTitle.trim() === "") {
+  console.log("props.collectionTitle", props.collectionTitle);
+  if (props.collectionTitle === "") {
     alert("Please enter a collection title first");
     return;
   }
+
+  if (!/^[a-zA-Z0-9 ]*$/.test(props.collectionTitle)) {
+    alert("Collection title can only contain letters and numbers");
+    return;
+  }
+
   const opmlCode = prompt(
     "Please paste your OPML code exported from this app:"
   );

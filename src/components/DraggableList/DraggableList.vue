@@ -129,20 +129,24 @@ const editBookmark = (bookmarkId: string, field: string) => {
     return;
   }
 
-  let newFieldValue: string | null = null;
   if (field === "title") {
-    newFieldValue = prompt("Enter new bookmark title");
-  }
+    const newTitle = prompt("Enter new bookmark title");
 
-  if (newFieldValue !== null && (field === "title" || !isURL(newFieldValue))) {
-    const updatedBookmark = {
-      id: bookmarkId,
-      favicon: oldBookmark.favicon,
-      url: oldBookmark.url,
-      title: newFieldValue,
-    } as IBookmark;
+    if (newTitle !== null) {
+      if (newTitle.trim() !== "") {
+        const updatedBookmark = {
+          id: bookmarkId,
+          favicon: oldBookmark.favicon,
+          url: oldBookmark.url,
+          title: newTitle,
+        } as IBookmark;
 
-    collections.editBookmark(collection.id, bookmarkId, updatedBookmark);
+        collections.editBookmark(collection.id, bookmarkId, updatedBookmark);
+        alert(`Bookmark title updated successfully: ${newTitle}`);
+      } else {
+        alert("Bookmark title cannot be empty. Update rejected.");
+      }
+    }
   }
 };
 </script>

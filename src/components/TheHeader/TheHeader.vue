@@ -20,4 +20,4 @@ const routes = [
 ];
 </script>
 
-<style lang="scss" src="./TheHeader.scss"></style>
+<style scoped lang="scss" src="./TheHeader.scss"></style>

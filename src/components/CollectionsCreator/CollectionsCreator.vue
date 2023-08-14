@@ -7,7 +7,7 @@
           <label for="title" class="creator-view__label">Title:</label>
           <input
             id="title"
-            v-model="collectionTitle"
+            v-model.trim="collectionTitle"
             type="text"
             class="creator-view__input"
             required

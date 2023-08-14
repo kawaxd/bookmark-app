@@ -10,4 +10,4 @@
 const currentYear = new Date().getFullYear();
 </script>
 
-<style lang="scss" src="./TheFooter.scss"></style>
+<style scoped lang="scss" src="./TheFooter.scss"></style>
