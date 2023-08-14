@@ -103,7 +103,7 @@ export const useCollections = defineStore("collections", {
             });
           }
         }
-        console.log(bookmarks);
+
         if (bookmarks.length > 0) {
           const collectionId = generateUUID();
           const newTitle = collectionTitle;

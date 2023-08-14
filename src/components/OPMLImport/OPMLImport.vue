@@ -9,6 +9,7 @@ import TheButton from "@/components/TheButton/TheButton.vue";
 
 import { useCollections } from "@/store/collections";
 import router from "@/router";
+import sanitizeAlphaNumericOnly from "@/utils/sanitizeAlphaNumericOnly";
 
 const collectionsStore = useCollections();
 
@@ -24,13 +25,12 @@ const props = defineProps({
 });
 
 const openDialog = async () => {
-  console.log("props.collectionTitle", props.collectionTitle);
   if (props.collectionTitle === "") {
     alert("Please enter a collection title first");
     return;
   }
 
-  if (!/^[a-zA-Z0-9 ]*$/.test(props.collectionTitle)) {
+  if (!sanitizeAlphaNumericOnly(props.collectionTitle)) {
     alert("Collection title can only contain letters and numbers");
     return;
   }
