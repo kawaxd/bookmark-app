@@ -1,6 +1,8 @@
+@import "../../assets/variables";
+
 .footer {
-  background-color: #007bff;
-  color: #fff;
+  background-color: $primary;
+  color: $white;
   padding: 1rem 0;
   text-align: center;
   width: 100%;

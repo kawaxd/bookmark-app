@@ -1,3 +1,6 @@
+@import "../../assets/variables";
+
+
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -6,7 +9,7 @@
     flex-basis: 100%;
     margin: 10px 0;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid $gray;
     cursor: move;
   }
 
@@ -15,7 +18,7 @@
     align-items: center;
     box-sizing: border-box;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid $gray;
     margin: 5px;
 
     &-icon {
