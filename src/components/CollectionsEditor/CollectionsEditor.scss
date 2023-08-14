@@ -1,0 +1,89 @@
+@import "../../assets/variables";
+
+.edit-collection {
+  padding: 30px;
+
+  &__content {
+    background-color: $white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 600px;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: $primary;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+  }
+
+  &__item {
+    margin-bottom: 15px;
+    border: 1px solid $gray;
+    padding: 10px;
+    border-radius: 4px;
+  }
+
+  &__bookmark {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__bookmark-info {
+    display: flex;
+    align-items: center;
+  }
+
+  &__favicon {
+    max-width: 16px;
+    max-height: 16px;
+    margin-left: 10px;
+  }
+
+  &__no-bookmarks {
+    margin-top: 10px;
+  }
+
+  &__form {
+    margin-top: 20px;
+  }
+
+  &__form-group {
+    margin-bottom: 15px;
+  }
+
+  &__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  &__button {
+    background-color: $primary;
+    color: $white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      background-color: $secondary;
+    }
+  }
+}

@@ -39,6 +39,7 @@ import TheButton from "@/components/TheButton/TheButton.vue";
 import OPMLImport from "@/components/OPMLImport/OPMLImport.vue";
 
 import generateUUID from "@/utils/generateUUID";
+import sanitizeAlphaNumericOnly from "@/utils/sanitizeAlphaNumericOnly";
 
 const collectionsStore = useCollections();
 const collectionTitle = ref<string>("");
@@ -46,7 +47,7 @@ const collectionId = ref<string>(generateUUID());
 
 const createCollection = (): void => {
   if (!collectionTitle.value) return;
-  if (!/^[a-zA-Z0-9 ]*$/.test(collectionTitle.value)) {
+  if (!sanitizeAlphaNumericOnly(collectionTitle.value)) {
     alert("Collection title can only contain letters and numbers");
     return;
   }
