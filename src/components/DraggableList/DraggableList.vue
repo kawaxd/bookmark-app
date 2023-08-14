@@ -90,7 +90,7 @@ const editBookmark = (bookmarkId: string) => {
 
   const newUrl = prompt("Enter new bookmark url (leave empty to go forward)");
 
-  if (newUrl !== "" && !isURL(newUrl)) {
+  if (!!newUrl && !isURL(newUrl)) {
     alert("Invalid URL");
     return;
   }

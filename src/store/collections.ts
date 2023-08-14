@@ -2,8 +2,9 @@ import { defineStore } from "pinia";
 
 import { ICollection, IBookmark } from "@/types";
 import generateUUID from "@/utils/generateUUID";
-import isValidImage from "@/utils/isValidImage";
+
 import { ref } from "vue";
+import fetchFavicon from "@/utils/fetchFavicon";
 
 export const useCollections = defineStore("collections", {
   state: () => ({
@@ -92,10 +93,7 @@ export const useCollections = defineStore("collections", {
           const url = outline.getAttribute("url");
 
           if (title && url) {
-            // @TODO: trim to base url, try to find png etc
-            const favicon = (await isValidImage(`${url}/favicon.ico`))
-              ? `${url}/favicon.ico`
-              : require("@/assets/fallback.png");
+            const favicon = await fetchFavicon(url);
 
             bookmarks.push({
               id: generateUUID(),

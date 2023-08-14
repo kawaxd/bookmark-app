@@ -54,17 +54,17 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { useCollections } from "@/store/collections";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import TheButton from "@/components/TheButton/TheButton.vue";
 
 import generateUUID from "@/utils/generateUUID";
 import isURL from "@/utils/isURL";
-import isValidImage from "@/utils/isValidImage";
+import fetchFavicon from "@/utils/fetchFavicon";
+
 import DraggableList from "@/components/DraggableList/DraggableList.vue";
 
 const collectionsStore = useCollections();
 const route = useRoute();
-const router = useRouter();
 
 const collectionId = ref<string>("");
 const newTitle = ref<string>("");
@@ -102,9 +102,7 @@ const createBookmark = async () => {
     id: generateUUID(),
     title: newTitle.value,
     url: trimmedUrl,
-    favicon: (await isValidImage(`${trimmedUrl}/favicon.ico`))
-      ? `${trimmedUrl}/favicon.ico`
-      : require("@/assets/fallback.png"),
+    favicon: await fetchFavicon(trimmedUrl),
   };
 
   try {
@@ -118,11 +116,13 @@ const createBookmark = async () => {
 </script>
 
 <style scoped lang="scss">
+@import "../assets/variables";
+
 .edit-collection {
   padding: 30px;
 
   &__content {
-    background-color: #ffffff;
+    background-color: $white;
     border-radius: 8px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -133,7 +133,7 @@ const createBookmark = async () => {
   &__title {
     font-size: 1.5rem;
     margin-bottom: 20px;
-    color: #007bff;
+    color: $primary;
   }
 
   &__list {
@@ -143,7 +143,7 @@ const createBookmark = async () => {
 
   &__item {
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid $gray;
     padding: 10px;
     border-radius: 4px;
   }
@@ -192,8 +192,8 @@ const createBookmark = async () => {
   }
 
   &__button {
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: $primary;
+    color: $white;
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
@@ -201,7 +201,7 @@ const createBookmark = async () => {
     font-weight: bold;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: $secondary;
     }
   }
 }
