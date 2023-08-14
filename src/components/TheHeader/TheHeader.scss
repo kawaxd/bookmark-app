@@ -1,0 +1,29 @@
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  
+    &__nav {
+      margin-bottom: 10px;
+  
+      &__link {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+  
+        &.router-link-active {
+          font-weight: bold;
+        }
+      }
+    }
+  
+    &__title {
+      font-size: 2rem;
+      margin: 0;
+    }
+  }
